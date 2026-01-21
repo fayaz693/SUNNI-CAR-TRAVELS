@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>SUNNI CAR TRAVELS | Premium Luxury Car Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@800;900&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
@@ -11,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
-        /* All CSS styles remain the same as before */
         :root {
             --primary: #0A0E17;
             --primary-dark: #050811;
@@ -36,17 +35,27 @@
             --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-slow: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-fast: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Responsive Variables */
+            --header-height: 80px;
+            --section-padding: 80px 20px;
+            --mobile-padding: 20px 15px;
+            --tablet-padding: 30px 20px;
+            --desktop-padding: 120px 40px;
         }
 
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html {
             scroll-behavior: smooth;
             overflow-x: hidden;
+            font-size: 16px;
         }
 
         body {
@@ -56,8 +65,50 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            width: 100%;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Responsive Typography */
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+        }
+
+        h3 {
+            font-size: clamp(1.4rem, 3vw, 2rem);
+        }
+
+        p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Container for responsive layout */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Responsive Grid System */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+        /* Background with Responsive Adjustments */
         .background-container {
             position: fixed;
             top: 0;
@@ -74,6 +125,7 @@
             height: 100%;
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             will-change: transform;
         }
 
@@ -94,12 +146,13 @@
             filter: blur(1px);
         }
 
+        /* Responsive Road Animation */
         .road-container {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 200px;
+            height: clamp(120px, 20vh, 200px);
             z-index: -1;
             overflow: hidden;
         }
@@ -124,85 +177,763 @@
             top: 60%;
             left: 0;
             width: 200%;
-            height: 4px;
+            height: 3px;
             background: repeating-linear-gradient(
                 90deg,
                 transparent,
-                transparent 60px,
-                var(--gold) 60px,
-                var(--gold) 120px
+                transparent 40px,
+                var(--gold) 40px,
+                var(--gold) 80px
             );
             animation: roadMove 1.5s linear infinite;
-            filter: drop-shadow(0 0 5px var(--gold));
         }
 
         .moving-cars {
             position: absolute;
             width: 100%;
-            height: 150px;
-            bottom: 80px;
+            height: clamp(80px, 15vh, 150px);
+            bottom: 60px;
         }
 
         .car {
             position: absolute;
-            font-size: 2.8rem;
+            font-size: clamp(1.5rem, 4vw, 2.8rem);
             filter: drop-shadow(0 5px 20px rgba(255, 107, 53, 0.5));
             animation: driveHorizontal 25s linear infinite;
             z-index: 2;
             will-change: transform;
         }
 
-        .car-1 { bottom: 30px; color: var(--accent); animation-delay: 0s; animation-duration: 20s; }
-        .car-2 { bottom: 80px; color: var(--gold); animation-delay: -7s; animation-duration: 25s; font-size: 2.2rem; }
-        .car-3 { bottom: 50px; color: var(--blue); animation-delay: -12s; animation-duration: 30s; font-size: 3.2rem; }
-        .car-4 { bottom: 10px; color: var(--silver); animation-delay: -18s; animation-duration: 22s; font-size: 2.5rem; }
+        .car-1 { bottom: 20px; color: var(--accent); animation-delay: 0s; animation-duration: 20s; }
+        .car-2 { bottom: 50px; color: var(--gold); animation-delay: -7s; animation-duration: 25s; }
+        .car-3 { bottom: 35px; color: var(--blue); animation-delay: -12s; animation-duration: 30s; }
+        .car-4 { bottom: 5px; color: var(--silver); animation-delay: -18s; animation-duration: 22s; }
 
-        .particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: floatParticle 20s infinite linear;
-            opacity: 0.4;
-        }
-
+        /* Responsive Glass Cards */
         .glass-card {
             background: var(--gradient-glass);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
+            border-radius: clamp(10px, 2vw, 20px);
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
-        .glass-card::before {
+        /* Responsive Navigation */
+        .navbar {
+            position: fixed;
+            top: clamp(10px, 2vw, 25px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - clamp(20px, 4vw, 40px));
+            max-width: 1400px;
+            padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 3vw, 2.5rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: clamp(40px, 8vw, 60px);
+            border: 1px solid rgba(255, 107, 53, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            top: 5px;
+            padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1rem, 2vw, 2rem);
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.9rem);
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: clamp(0.5rem, 1vw, 1rem);
+        }
+
+        .logo-icon {
+            color: var(--accent);
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            animation: rotateCar 25s linear infinite;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(0.25rem, 0.5vw, 0.5rem);
+            background: rgba(255, 255, 255, 0.05);
+            padding: clamp(0.25rem, 0.5vw, 0.5rem);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            padding: clamp(0.5rem, 1vw, 0.7rem) clamp(1rem, 1.5vw, 1.5rem);
+            border-radius: 25px;
+            transition: var(--transition);
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+            white-space: nowrap;
+        }
+
+        .book-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: clamp(0.7rem, 1.5vw, 0.9rem) clamp(1.5rem, 3vw, 2.2rem);
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+            box-shadow: var(--shadow-light);
+            white-space: nowrap;
+        }
+
+        /* Hero Section - Fully Responsive */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--section-padding);
+            padding-top: clamp(80px, 15vh, 120px);
+            position: relative;
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: min(1200px, 90vw);
+            padding: clamp(2rem, 5vw, 4rem);
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: clamp(0.5rem, 1.5vw, 0.8rem) clamp(1rem, 3vw, 2rem);
+            background: rgba(255, 107, 53, 0.15);
+            border: 1px solid rgba(255, 107, 53, 0.4);
+            border-radius: 30px;
+            font-weight: 700;
+            margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--gold);
+            backdrop-filter: blur(10px);
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+        }
+
+        /* Section Styling */
+        .section-padding {
+            padding: clamp(60px, 10vh, 120px) clamp(20px, 4vw, 40px);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: clamp(2rem, 6vh, 5rem);
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            display: inline-block;
+            position: relative;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(80px, 20vw, 150px);
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: min(700px, 90vw);
+            margin: 1.5rem auto 0;
+            line-height: 1.6;
+        }
+
+        /* Services Grid - Responsive */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 2.5vw, 2.5rem);
+            text-align: center;
+            height: 100%;
+        }
+
+        .service-icon-container {
+            width: clamp(70px, 15vw, 100px);
+            height: clamp(70px, 15vw, 100px);
+            margin: 0 auto clamp(1rem, 3vw, 2rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+        }
+
+        .service-icon {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: white;
+        }
+
+        .service-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: clamp(30px, 6vw, 40px);
+            height: clamp(30px, 6vw, 40px);
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: var(--primary);
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+        }
+
+        /* Location Section - Responsive */
+        .location-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: clamp(2rem, 4vw, 4rem);
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 992px) {
+            .location-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .location-box {
+            padding: clamp(1.5rem, 3vw, 3rem);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .location-details {
+            margin-top: clamp(1.5rem, 3vw, 2.5rem);
+            flex-grow: 1;
+        }
+
+        .location-details p {
+            display: flex;
+            align-items: flex-start;
+            gap: clamp(0.8rem, 1.5vw, 1.2rem);
+            margin-bottom: clamp(0.8rem, 1.5vw, 1.2rem);
+            padding: clamp(0.8rem, 1.5vw, 1.2rem);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
+        }
+
+        /* Map Container - Responsive */
+        .map-container {
+            height: clamp(300px, 50vh, 500px);
+            min-height: 300px;
+            border-radius: clamp(10px, 2vw, 20px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #map {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: 0.8s;
-            z-index: 1;
         }
 
-        .glass-card:hover::before {
-            left: 100%;
+        .map-overlay {
+            position: absolute;
+            top: clamp(10px, 2vw, 20px);
+            left: clamp(10px, 2vw, 20px);
+            right: clamp(10px, 2vw, 20px);
+            background: rgba(10, 14, 23, 0.9);
+            padding: clamp(1rem, 2vw, 1.5rem);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            z-index: 1000;
+            max-width: 400px;
         }
 
+        /* Fleet Section - Responsive */
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .car-card {
+            padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .car-image-container {
+            width: 100%;
+            height: clamp(180px, 30vw, 220px);
+            margin-bottom: clamp(1rem, 2vw, 2rem);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .car-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(10, 14, 23, 0.95), transparent);
+            padding: clamp(1rem, 2vw, 2rem) clamp(0.8rem, 1.5vw, 1.5rem) clamp(0.8rem, 1.5vw, 1.5rem);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .car-card:hover .car-overlay {
+            transform: translateY(0);
+        }
+
+        /* Contact Form - Responsive */
+        .contact-form {
+            width: 100%;
+            max-width: min(700px, 90vw);
+            margin: 0 auto;
+            padding: clamp(2rem, 4vw, 4rem);
+        }
+
+        .form-group {
+            margin-bottom: clamp(1rem, 2vw, 2rem);
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: clamp(1rem, 1.5vw, 1.5rem);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            transition: var(--transition);
+        }
+
+        /* Footer - Responsive */
+        .footer {
+            padding: clamp(3rem, 6vw, 6rem) clamp(20px, 4vw, 40px) clamp(2rem, 4vw, 4rem);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: clamp(3rem, 6vw, 6rem);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1rem, 2vw, 1.5rem);
+            margin: clamp(2rem, 4vw, 3rem) 0;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: clamp(45px, 8vw, 60px);
+            height: clamp(45px, 8vw, 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--light);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            transition: var(--transition);
+        }
+
+        /* Floating CTA - Responsive */
+        .floating-cta {
+            position: fixed;
+            bottom: clamp(20px, 4vw, 30px);
+            right: clamp(20px, 4vw, 30px);
+            background: var(--gradient-accent);
+            color: white;
+            width: clamp(50px, 10vw, 70px);
+            height: clamp(50px, 10vw, 70px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            z-index: 999;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gradient-accent);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive Animations */
+        @keyframes roadMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
+        }
+
+        @keyframes driveHorizontal {
+            0% { left: -100px; }
+            100% { left: calc(100% + 100px); }
+        }
+
+        @keyframes rotateCar {
+            0% { transform: rotateY(0); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero-content {
+                padding: clamp(1.5rem, 4vw, 3rem);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                width: calc(100% - 30px);
+                padding: 1rem 1.5rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: min(300px, 80vw);
+                height: 100vh;
+                background: rgba(10, 14, 23, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 2rem 2rem;
+                border-radius: 0;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-link {
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                font-size: 1.1rem;
+            }
+
+            .hero h1 br {
+                display: none;
+            }
+
+            .map-overlay {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                margin-top: 1rem;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+
+            .section-padding {
+                padding: 60px 15px;
+            }
+
+            .hero {
+                padding-top: 100px;
+                min-height: calc(100vh - 80px);
+            }
+
+            .hero-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .service-card,
+            .car-card,
+            .location-box {
+                padding: 1.5rem;
+            }
+
+            .book-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .floating-cta {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            html {
+                font-size: 13px;
+            }
+
+            .navbar {
+                width: calc(100% - 20px);
+                padding: 0.8rem 1rem;
+                border-radius: 40px;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .hero-badge {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .services-grid,
+            .fleet-grid {
+                gap: 1.5rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .social-link {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .services-grid,
+            .fleet-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .car-image-container {
+                height: 200px;
+            }
+        }
+
+        /* Landscape Orientation */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .hero {
+                min-height: auto;
+                padding: 80px 20px 40px;
+            }
+            
+            .hero-content {
+                padding: 1.5rem;
+            }
+            
+            .road-container {
+                height: 100px;
+            }
+            
+            .moving-cars {
+                height: 80px;
+                bottom: 40px;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            .map-container {
+                border-color: rgba(255, 107, 53, 0.4);
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            .glass-card {
+                border: 2px solid var(--accent);
+            }
+            
+            .book-btn {
+                border: 2px solid white;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .car,
+            .logo-icon,
+            .road-lines {
+                animation: none;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .background-container,
+            .road-container,
+            .floating-cta,
+            .navbar,
+            .social-links {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .glass-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+            }
+            
+            .book-btn {
+                display: none !important;
+            }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .car-card:hover .car-overlay,
+            .service-card:hover,
+            .car-card:hover {
+                transform: none;
+            }
+            
+            .nav-link:hover::before,
+            .book-btn:hover {
+                transform: none;
+            }
+            
+            /* Larger touch targets */
+            .nav-link,
+            .book-btn,
+            .social-link {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        @media (min-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 5px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: var(--gradient-accent);
+                border-radius: 5px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .w-100 { width: 100%; }
+        .h-100 { height: 100%; }
+        .my-auto { margin-top: auto; margin-bottom: auto; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .d-block { display: block; }
+        .d-flex { display: flex; }
+        .d-grid { display: grid; }
+        .d-none { display: none; }
+        
         .gradient-text {
             background: linear-gradient(45deg, var(--accent), var(--gold));
             -webkit-background-clip: text;
@@ -222,499 +953,15 @@
             font-weight: 700;
         }
 
-        .navbar {
-            position: fixed;
-            top: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 1300px;
-            padding: 1.2rem 2.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10, 14, 23, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 60px;
-            border: 1px solid rgba(255, 107, 53, 0.25);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            transition: var(--transition);
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.9rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .logo-icon {
-            color: var(--accent);
-            font-size: 2.2rem;
-            animation: rotateCar 25s linear infinite;
-            position: relative;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.5rem;
-            border-radius: 50px;
-        }
-
-        .nav-link {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
-            transition: var(--transition);
-            font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-accent);
-            transition: var(--transition);
-            z-index: -1;
-            border-radius: inherit;
-        }
-
-        .nav-link:hover {
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .nav-link:hover::before {
-            left: 0;
-        }
-
-        .book-btn {
-            background: var(--gradient-accent);
-            color: white;
-            border: none;
-            padding: 0.9rem 2.2rem;
-            border-radius: 25px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.95rem;
-            box-shadow: var(--shadow-light);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
-        }
-
-        .book-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(255, 107, 53, 0.4);
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 20px 20px;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 1000px;
-            width: 100%;
-            padding: 4rem;
-            text-align: center;
-            margin-top: 60px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 4rem;
-            margin-bottom: 1.8rem;
-            line-height: 1.1;
-            position: relative;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 3rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background: rgba(255, 107, 53, 0.15);
-            border: 1px solid rgba(255, 107, 53, 0.4);
-            border-radius: 30px;
-            font-weight: 700;
-            margin-bottom: 2.5rem;
-            color: var(--gold);
-            backdrop-filter: blur(10px);
-            animation: floatBadge 4s ease-in-out infinite;
-        }
-
-        .section-padding {
-            padding: 120px 20px;
-            position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-            position: relative;
-        }
-
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.2rem;
-            display: inline-block;
-            position: relative;
-            padding-bottom: 1.5rem;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 5px;
-            background: var(--gradient-accent);
-            border-radius: 3px;
-            animation: widthPulse 3s infinite alternate;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 700px;
-            margin: 1.5rem auto 0;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            padding: 3rem 2.5rem;
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-            overflow: visible;
-        }
-
-        .service-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--accent);
-        }
-
-        .service-icon-container {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gradient-accent);
-            border-radius: 50%;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            color: white;
-        }
-
-        .service-number {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            color: var(--primary);
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(255, 209, 102, 0.4);
-        }
-
-        .location-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1300px;
-            margin: 0 auto;
-            align-items: center;
-        }
-
-        .location-box {
-            padding: 3rem;
-            position: relative;
-        }
-
-        .location-info h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .location-details {
-            margin-top: 2.5rem;
-        }
-
-        .location-details p {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            margin-bottom: 1.2rem;
-            padding: 1.2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            transition: var(--transition);
-        }
-
-        .location-details p:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .map-container {
-            height: 500px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            position: relative;
-            border: 2px solid rgba(255, 107, 53, 0.2);
-        }
-
-        #map {
-            width: 100%;
-            height: 100%;
-            background-color: #e0e0e0;
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(10, 14, 23, 0.9);
-            padding: 1.5rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            z-index: 1000;
-            max-width: 300px;
-        }
-
-        .fleet-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .car-card {
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .car-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .car-image-container {
-            width: 100%;
-            height: 220px;
-            margin-bottom: 2rem;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .car-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-slow);
-        }
-
-        .contact-form {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 4rem;
-            position: relative;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .form-label {
-            position: absolute;
-            top: 1rem;
-            left: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            transition: var(--transition);
-            pointer-events: none;
-            font-size: 1rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            color: var(--light);
-            font-family: 'Poppins', sans-serif;
-            transition: var(--transition);
-            font-size: 1.1rem;
-        }
-
-        .footer {
-            padding: 6rem 20px 4rem;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            margin-top: 6rem;
-            border-top: 1px solid rgba(255, 107, 53, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-
-        .social-link {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--light);
-            font-size: 1.5rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-link:hover {
-            transform: translateY(-5px) rotate(10deg);
-            color: white;
-        }
-
-        .floating-cta {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--gradient-accent);
-            color: white;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
-            z-index: 999;
-            cursor: pointer;
-            transition: var(--transition);
-            animation: pulseCTA 2s infinite;
-        }
-
-        .floating-cta:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
-        }
-
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background: var(--gradient-accent);
-            z-index: 1001;
-            transition: width 0.1s ease;
-        }
-
-        @keyframes roadMove {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100px); }
-        }
-
-        @keyframes driveHorizontal {
-            0% { left: -100px; }
-            100% { left: calc(100% + 100px); }
-        }
-
-        @keyframes rotateCar {
-            0% { transform: rotateY(0); }
-            100% { transform: rotateY(360deg); }
-        }
-
-        @keyframes floatBadge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes widthPulse {
-            0% { width: 100px; }
-            100% { width: 150px; }
-        }
-
-        @keyframes pulseCTA {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -751,7 +998,12 @@
             <i class="fas fa-car logo-icon"></i>
             <span class="gradient-text">SUNNI CAR TRAVELS</span>
         </div>
-        <div class="nav-links">
+        
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="nav-links" id="navLinks">
             <a href="#home" class="nav-link">Home</a>
             <a href="#services" class="nav-link">Services</a>
             <a href="#fleet" class="nav-link">Fleet</a>
@@ -765,9 +1017,9 @@
     <section id="home" class="hero">
         <div class="hero-content glass-card fade-in">
             <div class="hero-badge">PREMIUM LUXURY SERVICE</div>
-            <h1><span class="gradient-text">Experience Luxury Travel</span> <br>with <span class="gold-text">SUNNI CAR TRAVELS</span></h1>
+            <h1><span class="gradient-text">Experience Luxury Travel</span> with <span class="gold-text">SUNNI CAR TRAVELS</span></h1>
             <p>Premium car travel services with professional drivers, luxury vehicles, and unmatched comfort for all your transportation needs. Experience the journey redefined.</p>
-            <button class="book-btn" onclick="scrollToContact()" style="padding: 1.2rem 3rem; font-size: 1.1rem;">
+            <button class="book-btn" onclick="scrollToContact()" style="padding: 1.2rem 3rem; font-size: 1.1rem; margin-top: 2rem;">
                 <i class="fas fa-calendar-check"></i> Book Your Ride Now
             </button>
         </div>
@@ -775,75 +1027,76 @@
 
     <!-- Services Section -->
     <section id="services" class="section-padding">
-        <div class="section-header">
-            <h2 class="section-title gradient-text">Our Premium Services</h2>
-            <p class="section-subtitle">Experience excellence in every journey with our comprehensive range of luxury transportation services</p>
-        </div>
-        <div class="services-grid">
-            <div class="service-card glass-card stagger-item">
-                <div class="service-number">01</div>
-                <div class="service-icon-container">
-                    <div class="service-icon">
-                        <i class="fas fa-plane"></i>
-                    </div>
-                </div>
-                <h3 class="accent-text">Airport Transfers</h3>
-                <p>Timely and reliable airport pickups and drop-offs with real-time flight tracking and meet & greet service</p>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title gradient-text">Our Premium Services</h2>
+                <p class="section-subtitle">Experience excellence in every journey with our comprehensive range of luxury transportation services</p>
             </div>
-            <div class="service-card glass-card stagger-item">
-                <div class="service-number">02</div>
-                <div class="service-icon-container">
-                    <div class="service-icon">
-                        <i class="fas fa-briefcase"></i>
+            <div class="services-grid">
+                <div class="service-card glass-card fade-in">
+                    <div class="service-number">01</div>
+                    <div class="service-icon-container">
+                        <div class="service-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
                     </div>
+                    <h3 class="accent-text">Airport Transfers</h3>
+                    <p>Timely and reliable airport pickups and drop-offs with real-time flight tracking and meet & greet service</p>
                 </div>
-                <h3 class="accent-text">Corporate Travel</h3>
-                <p>Professional transportation for business meetings, corporate events, and executive travel with WiFi and workspace</p>
-            </div>
-            <div class="service-card glass-card stagger-item">
-                <div class="service-number">03</div>
-                <div class="service-icon-container">
-                    <div class="service-icon">
-                        <i class="fas fa-glass-cheers"></i>
+                <div class="service-card glass-card fade-in">
+                    <div class="service-number">02</div>
+                    <div class="service-icon-container">
+                        <div class="service-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
                     </div>
+                    <h3 class="accent-text">Corporate Travel</h3>
+                    <p>Professional transportation for business meetings, corporate events, and executive travel with WiFi and workspace</p>
                 </div>
-                <h3 class="accent-text">Special Events</h3>
-                <p>Weddings, proms, anniversaries - arrive in style and comfort with our premium event transportation services</p>
+                <div class="service-card glass-card fade-in">
+                    <div class="service-number">03</div>
+                    <div class="service-icon-container">
+                        <div class="service-icon">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                    </div>
+                    <h3 class="accent-text">Special Events</h3>
+                    <p>Weddings, proms, anniversaries - arrive in style and comfort with our premium event transportation services</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Location Section -->
     <section id="location" class="section-padding">
-        <div class="section-header">
-            <h2 class="section-title gradient-text">Visit Our Location</h2>
-            <p class="section-subtitle">Find us at our convenient location for bookings, inquiries, and personalized service consultations</p>
-        </div>
-        <div class="location-container">
-            <div class="location-box glass-card fade-in">
-                <div class="location-info">
-                    <h3><i class="fas fa-map-marker-alt accent-text"></i> Our Business Address</h3>
-                    <p>Your journey to luxury begins at our headquarters. Visit us for a personalized consultation and experience our fleet firsthand.</p>
-                    
-                    <div class="location-details">
-                        <p><i class="fas fa-map-pin accent-text"></i> <strong>Address:</strong> Opp Neo Geetanjai School, Nizampet X Roads, Hyderabad, Telangana 500090</p>
-                        <p><i class="fas fa-clock accent-text"></i> <strong>Hours:</strong> Open 24/7 for bookings and inquiries</p>
-                        <p><i class="fas fa-phone accent-text"></i> <strong>Phone:</strong> +91 9966649873</p>
-                        <p><i class="fas fa-envelope accent-text"></i> <strong>Email:</strong> smdrafi1002@gmail.com</p>
-                        <p><i class="fas fa-car accent-text"></i> <strong>Parking:</strong> Ample secure parking available</p>
-                    </div>
-                    
-                    <button class="book-btn" onclick="getDirections()" style="margin-top: 2rem; width: 100%;">
-                        <i class="fas fa-directions"></i> Get Directions
-                    </button>
-                </div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title gradient-text">Visit Our Location</h2>
+                <p class="section-subtitle">Find us at our convenient location for bookings, inquiries, and personalized service consultations</p>
             </div>
-            
-            <div class="map-container glass-card fade-in">
-                <div id="map"></div>
-                <div class="map-overlay">
-                    <h4 class="accent-text" style="margin-bottom: 0.5rem;">Quick Info</h4>
-                    <p style="font-size: 0.9rem; opacity: 0.9;">Click on the car icon for directions. We're easily accessible from all major routes.</p>
+            <div class="location-container">
+                <div class="location-box glass-card fade-in">
+                    <div class="location-info">
+                        <h3><i class="fas fa-map-marker-alt accent-text"></i> Our Business Address</h3>
+                        <p>Your journey to luxury begins at our headquarters. Visit us for a personalized consultation and experience our fleet firsthand.</p>
+                        
+                        <div class="location-details">
+                            <p><i class="fas fa-map-pin accent-text"></i> <strong>Address:</strong> Opp Neo Geetanjali School, Nizampet X Roads, Hyderabad, Telangana 500090</p>
+                            <p><i class="fas fa-clock accent-text"></i> <strong>Hours:</strong> Open 24/7 for bookings and inquiries</p>
+                            <p><i class="fas fa-phone accent-text"></i> <strong>Phone:</strong> +91 9966649873</p>
+                            <p><i class="fas fa-envelope accent-text"></i> <strong>Email:</strong> smdrafi1002@gmail.com</p>
+                            <p><i class="fas fa-car accent-text"></i> <strong>Parking:</strong> Ample secure parking available</p>
+                        </div>
+                        
+                        <button class="book-btn" onclick="getDirections()" style="margin-top: 2rem; width: 100%;">
+                            <i class="fas fa-directions"></i> Get Directions
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="map-container glass-card fade-in">
+                    <div id="map"></div>
+
                 </div>
             </div>
         </div>
@@ -851,107 +1104,108 @@
 
     <!-- Fleet Section -->
     <section id="fleet" class="section-padding">
-        <div class="section-header">
-            <h2 class="section-title gradient-text">Our Luxury Fleet</h2>
-            <p class="section-subtitle">Choose from our curated collection of premium vehicles, each maintained to the highest standards of luxury and safety</p>
-        </div>
-        <div class="fleet-grid">
-            <div class="car-card glass-card stagger-item">
-                <div class="car-image-container">
-                    <img src="https://imgd.aeplcdn.com/370x208/n/tpej3cb_1726565.jpg?q=80" alt="Premium SUV" class="car-image">
-                    <div class="car-overlay">
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Luxury leather seats, climate control, entertainment system</p>
-                        <div class="car-price">₹ 25/km</div>
-                    </div>
-                </div>
-                <h3 class="accent-text">Premium SUV</h3>
-                <p>Comfort for 6 passengers with luxury amenities and premium interior</p>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title gradient-text">Our Luxury Fleet</h2>
+                <p class="section-subtitle">Choose from our curated collection of premium vehicles, each maintained to the highest standards of luxury and safety</p>
             </div>
-            <div class="car-card glass-card stagger-item">
-                <div class="car-image-container">
-                    <img src="https://imgd-ct.aeplcdn.com/664x415/n/a97j3cb_1726575.jpg?q=80" alt="Luxury SUV" class="car-image">
-                    <div class="car-overlay">
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Spacious interior, premium sound system, panoramic roof</p>
-                        <div class="car-price">₹ 30/km</div>
+            <div class="fleet-grid">
+                <div class="car-card glass-card fade-in">
+                    <div class="car-image-container">
+                        <img src="https://imgd.aeplcdn.com/370x208/n/tpej3cb_1726565.jpg?q=80" alt="Premium SUV" class="car-image">
+                        <div class="car-overlay">
+                            <p style="font-size: 0.9rem; opacity: 0.9;">Luxury leather seats, climate control, entertainment system</p>
+                            <div class="car-price">₹ 25/km</div>
+                        </div>
                     </div>
+                    <h3 class="accent-text">Premium SUV</h3>
+                    <p>Comfort for 6 passengers with luxury amenities and premium interior</p>
                 </div>
-                <h3 class="accent-text">Luxury SUV</h3>
-                <p>Spacious comfort for up to 6 passengers with advanced safety features</p>
-            </div>
-            <div class="car-card glass-card stagger-item">
-                <div class="car-image-container">
-                    <img src="https://www.marutiseva.com/assets/images/ertiga/prime-oxford-blue.png" alt="Family Car" class="car-image">
-                    <div class="car-overlay">
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Fuel efficient, spacious luggage capacity, family-friendly</p>
-                        <div class="car-price">₹ 18/km</div>
+                <div class="car-card glass-card fade-in">
+                    <div class="car-image-container">
+                        <img src="https://imgd-ct.aeplcdn.com/664x415/n/a97j3cb_1726575.jpg?q=80" alt="Luxury SUV" class="car-image">
+                        <div class="car-overlay">
+                            <p style="font-size: 0.9rem; opacity: 0.9;">Spacious interior, premium sound system</p>
+                            <div class="car-price">₹ 30/km</div>
+                        </div>
                     </div>
+                    <h3 class="accent-text">Luxury SUV</h3>
+                    <p>Spacious comfort for up to 6 passengers with advanced safety features</p>
                 </div>
-                <h3 class="accent-text">Budget Friendly Car</h3>
-                <p>Perfect for groups, families, and corporate travel with excellent value</p>
+                <div class="car-card glass-card fade-in">
+                    <div class="car-image-container">
+                        <img src="https://www.marutiseva.com/assets/images/ertiga/prime-oxford-blue.png" alt="Family Car" class="car-image">
+                        <div class="car-overlay">
+                            <p style="font-size: 0.9rem; opacity: 0.9;">Fuel efficient, spacious luggage capacity, family-friendly</p>
+                            <div class="car-price">₹ 18/km</div>
+                        </div>
+                    </div>
+                    <h3 class="accent-text">Budget Friendly Car</h3>
+                    <p>Perfect for groups, families, and corporate travel with excellent value</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="section-padding">
-        <div class="section-header">
-            <h2 class="section-title gradient-text">Book Your Luxury Ride</h2>
-            <p class="section-subtitle">Get in touch with us for booking inquiries, quotes, or any questions about our services</p>
-        </div>
-        <div class="contact-form glass-card fade-in">
-            <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder=" ">
-                <label for="name" class="form-label">Your Name</label>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title gradient-text">Book Your Luxury Ride</h2>
+                <p class="section-subtitle">Get in touch with us for booking inquiries, quotes, or any questions about our services</p>
             </div>
-            <div class="form-group">
-                <input type="tel" class="form-control" id="phone" placeholder=" ">
-                <label for="phone" class="form-label">Phone Number</label>
+            <div class="contact-form glass-card fade-in">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="service">
+                        <option value="" disabled selected>Select Service Type</option>
+                        <option>Airport Transfer</option>
+                        <option>Corporate Travel</option>
+                        <option>Wedding Service</option>
+                        <option>Special Event</option>
+                        <option>Hourly Rental</option>
+                        <option>Outstation Trip</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="message" rows="4" placeholder="Additional Requirements"></textarea>
+                </div>
+                <button class="book-btn" onclick="submitBooking()" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
+                    <i class="fas fa-paper-plane"></i> Submit Booking Request
+                </button>
             </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="email" placeholder=" ">
-                <label for="email" class="form-label">Email Address</label>
-            </div>
-            <div class="form-group">
-                <select class="form-control" id="service">
-                    <option value="" disabled selected>Select Service Type</option>
-                    <option>Airport Transfer</option>
-                    <option>Corporate Travel</option>
-                    <option>Wedding Service</option>
-                    <option>Special Event</option>
-                    <option>Hourly Rental</option>
-                    <option>Outstation Trip</option>
-                </select>
-                <label for="service" class="form-label" style="top: -0.8rem; left: 1rem; font-size: 0.85rem; background: var(--primary); padding: 0 0.5rem;">Service Type</label>
-            </div>
-            <div class="form-group">
-                <textarea class="form-control" id="message" rows="4" placeholder=" "></textarea>
-                <label for="message" class="form-label">Additional Requirements</label>
-            </div>
-            <button class="book-btn" onclick="submitBooking()" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
-                <i class="fas fa-paper-plane"></i> Submit Booking Request
-            </button>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="logo" style="justify-content: center; margin-bottom: 2rem;">
-            <i class="fas fa-car accent-text" style="font-size: 2.5rem;"></i>
-            <span class="gradient-text" style="font-size: 2.2rem;">SUNNI CAR TRAVELS</span>
-        </div>
-        <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 1.5rem;">Your journey, our priority. Experience luxury travel like never before with our premium services.</p>
-        
-        <div class="social-links">
-            <a href="https://wa.me/919966649873" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-        </div>
-        
-        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p style="opacity: 0.8; margin-bottom: 1rem;">&copy; 2024 SUNNI CAR TRAVELS. All rights reserved.</p>
-            <p style="opacity: 0.6; font-size: 0.9rem;">Premium luxury car service based in Hyderabad | Licensed and Insured</p>
+        <div class="container">
+            <div class="logo" style="justify-content: center; margin-bottom: 2rem;">
+                <i class="fas fa-car accent-text" style="font-size: 2.5rem;"></i>
+                <span class="gradient-text" style="font-size: 2.2rem;">SUNNI CAR TRAVELS</span>
+            </div>
+            <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 1.5rem;">Your journey, our priority. Experience luxury travel like never before with our premium services.</p>
+            
+            <div class="social-links">
+                <a href="https://wa.me/919966649873" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                <p style="opacity: 0.8; margin-bottom: 1rem;">&copy; 2024 SUNNI CAR TRAVELS. All rights reserved.</p>
+                <p style="opacity: 0.6; font-size: 0.9rem;">Premium luxury car service based in Hyderabad | Licensed and Insured</p>
+            </div>
         </div>
     </footer>
 
@@ -959,13 +1213,13 @@
         // Initialize particles
         function initParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+            const particleCount = 30;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                const size = Math.random() * 4 + 1;
+                const size = Math.random() * 3 + 1;
                 const posX = Math.random() * 100;
                 const delay = Math.random() * 20;
                 const duration = Math.random() * 10 + 15;
@@ -983,9 +1237,13 @@
             }
         }
 
-        // Initialize Map - VISIBLE
+        // Initialize Map
         function initMap() {
             const businessCoords = [17.500757720069423, 78.38941288511867];
+            
+            // Check if map container exists
+            const mapElement = document.getElementById('map');
+            if (!mapElement) return;
             
             const map = L.map('map').setView(businessCoords, 16);
             
@@ -999,8 +1257,8 @@
             const carIcon = L.divIcon({
                 html: `
                     <div style="
-                        width: 60px;
-                        height: 60px;
+                        width: 50px;
+                        height: 50px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -1017,13 +1275,13 @@
                             border: 3px solid white;
                             box-shadow: 0 0 20px rgba(255, 107, 53, 0.8);
                         ">
-                            <i class="fas fa-car" style="color: white; font-size: 1.8rem;"></i>
+                            <i class="fas fa-car" style="color: white; font-size: 1.5rem;"></i>
                         </div>
                     </div>
                 `,
                 className: 'custom-marker',
-                iconSize: [60, 60],
-                iconAnchor: [30, 60]
+                iconSize: [50, 50],
+                iconAnchor: [25, 50]
             });
             
             // Add marker
@@ -1035,7 +1293,7 @@
                             <i class="fas fa-map-marker-alt"></i> SUNNI CAR TRAVELS
                         </h3>
                         <p style="color: #333; margin: 0 0 10px 0; font-size: 0.9rem;">
-                            Opp Neo Geetanjai School, Nizampet X Roads, Hyderabad
+                            Opp Neo Geetanjali School, Nizampet X Roads, Hyderabad
                         </p>
                         <button onclick="getDirections()" style="
                             background: #FF6B35;
@@ -1050,11 +1308,15 @@
                             <i class="fas fa-directions"></i> Get Directions
                         </button>
                     </div>
-                `)
-                .openPopup();
+                `);
+            
+            // Fit bounds on mobile
+            if (window.innerWidth < 768) {
+                map.fitBounds([[17.5005, 78.3891], [17.5010, 78.3898]]);
+            }
         }
 
-        // Fixed Button Functions
+        // Button Functions
         function scrollToContact() {
             const contactSection = document.getElementById('contact');
             if (contactSection) {
@@ -1066,7 +1328,7 @@
         }
 
         function getDirections() {
-            const address = "Opp Neo Geetanjai School, Nizampet X Roads, Hyderabad, Telangana 500090";
+            const address = "Opp Neo Geetanjali School, Nizampet X Roads, Hyderabad, Telangana 500090";
             const encodedAddress = encodeURIComponent(address);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
         }
@@ -1112,43 +1374,88 @@
             }, 3000);
         }
 
-        // Initialize everything when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded, initializing...');
-            initParticles();
-            initMap();
+        // Mobile Menu Toggle
+        function initMobileMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
             
-            // Add smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    menuToggle.innerHTML = navLinks.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
                 });
+                
+                // Close menu when clicking a link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    });
+                });
+            }
+        }
+
+        // Responsive adjustments
+        function handleResponsive() {
+            // Adjust car animation speed based on screen size
+            const cars = document.querySelectorAll('.car');
+            const baseSpeed = 25;
+            const speedMultiplier = window.innerWidth < 768 ? 0.7 : 1;
+            
+            cars.forEach((car, index) => {
+                const durations = [20, 25, 30, 22];
+                car.style.animationDuration = `${durations[index] * speedMultiplier}s`;
             });
             
-            // Scroll progress bar
-            window.addEventListener('scroll', function() {
+            // Adjust road animation
+            const roadLines = document.querySelector('.road-lines');
+            if (roadLines) {
+                roadLines.style.animationDuration = window.innerWidth < 768 ? '2s' : '1.5s';
+            }
+        }
+
+        // Scroll animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Scroll progress bar
+        function initScrollProgress() {
+            window.addEventListener('scroll', () => {
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrolled = (winScroll / height) * 100;
-                document.querySelector('.scroll-progress').style.width = scrolled + '%';
+                const progressBar = document.querySelector('.scroll-progress');
+                if (progressBar) {
+                    progressBar.style.width = scrolled + '%';
+                }
             });
-            
-            // Navbar scroll effect
-            let lastScrollTop = 0;
+        }
+
+        // Navbar scroll effect
+        function initNavbarScroll() {
             const navbar = document.querySelector('.navbar');
-            
-            window.addEventListener('scroll', function() {
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', () => {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
                 if (scrollTop > 100) {
@@ -1169,31 +1476,42 @@
                 
                 lastScrollTop = scrollTop;
             });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            initMap();
+            initMobileMenu();
+            initScrollAnimations();
+            initScrollProgress();
+            initNavbarScroll();
+            handleResponsive();
             
-            // Initialize animations
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in').forEach(el => {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                });
-                
-                document.querySelectorAll('.stagger-item').forEach((item, index) => {
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }, index * 200);
-                });
-            }, 500);
+            // Re-run responsive adjustments on resize
+            window.addEventListener('resize', handleResponsive);
+            window.addEventListener('orientationchange', handleResponsive);
             
-            console.log('All functions initialized successfully');
+            // Prevent zoom on double-tap (mobile)
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
         });
 
-        // Test that functions are working
-        console.log('JavaScript loaded successfully');
-        console.log('scrollToContact function:', typeof scrollToContact);
-        console.log('getDirections function:', typeof getDirections);
-        console.log('callUs function:', typeof callUs);
-        console.log('submitBooking function:', typeof submitBooking);
+        // Handle viewport changes for iOS
+        function setViewportHeight() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', setViewportHeight);
+        setViewportHeight();
     </script>
 </body>
 </html>
